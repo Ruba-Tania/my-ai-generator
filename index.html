@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FreebieAI — Free AI Image Generator (No Key, No Signup, No Paywall)</title>
+<meta name="description" content="Generate AI images free in your browser. No API key, no signup form, no paywall. FLUX, GPT-Image, and Stable Diffusion — all free and verified working." />
+<meta name="theme-color" content="#0a0a0f" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lordbasilaiassistant-sudo.github.io/freebieai/" />
+<meta property="og:title" content="FreebieAI — Free AI Image Generator" />
+<meta property="og:description" content="Generate AI images free in your browser. No API key, no signup form, no paywall. FLUX · GPT-Image · Stable Diffusion." />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FreebieAI — Free AI Image Generator" />
+<meta name="twitter:description" content="Free AI image generation in your browser. No key, no signup, no paywall." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
+<style>
+  :root{
+    --bg:#0a0a0f; --bg2:#13131e; --card:#16161f; --line:#262633;
+    --txt:#e9e9f0; --muted:#9a9ab0; --accent:#7c5cff; --accent2:#16c2c2; --good:#37d67a; --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(124,92,255,.18), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(22,194,194,.14), transparent 55%),
+      var(--bg);
+    color:var(--txt); min-height:100vh; line-height:1.5;
+  }
+  a{color:var(--accent2);text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:30px 20px 90px}
+  header{margin-bottom:22px}
+  .logo{font-size:1.8rem;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+  .logo .dot{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);font-size:.96rem;max-width:700px;margin-top:6px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .badge{font-size:.74rem;font-weight:600;color:var(--good);background:rgba(55,214,122,.1);
+    border:1px solid rgba(55,214,122,.3);padding:4px 11px;border-radius:999px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .lbl{display:flex;justify-content:space-between;align-items:center;margin:0 0 6px}
+  label{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .link{font-size:.78rem;color:var(--accent2);cursor:pointer;user-select:none}
+  .link:hover{text-decoration:underline}
+  textarea,select{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);
+    border-radius:12px;padding:12px 14px;font-size:1rem;font-family:inherit;outline:none;transition:.15s}
+  textarea:focus,select:focus{border-color:var(--accent)}
+  textarea{resize:vertical;min-height:92px}
+  .row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px;margin-top:14px}
+  .field{min-width:0}
+  .controls{margin-top:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  .kbd{font-size:.78rem;color:var(--muted)}
+  .kbd b{color:var(--txt);background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-weight:600}
+  .btn{appearance:none;border:none;cursor:pointer;font-weight:700;font-size:1rem;color:#fff;
+    padding:13px 28px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#5a3fff);
+    box-shadow:0 8px 26px -10px var(--accent);transition:.15s;display:inline-flex;align-items:center;gap:9px}
+  .btn:hover:not(:disabled){transform:translateY(-1px)} .btn:disabled{opacity:.55;cursor:not-allowed}
+  .btn.sm{padding:8px 15px;font-size:.85rem;box-shadow:none}
+  .btn.ghost{background:var(--bg2);border:1px solid var(--line);color:var(--txt);box-shadow:none}
+  .out{margin-top:24px}
+  .results{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .slot{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .slot .imgbox{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:repeating-conic-gradient(#1a1a26 0% 25%, #15151f 0% 50%) 50%/22px 22px}
+  .slot img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;display:block}
+  .slot .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+  .slot .bar .m{font-size:.72rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .spinner{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .slotmsg{font-size:.8rem;color:var(--muted);padding:14px;text-align:center}
+  .slotmsg.err{color:#ffb3c1}
+  .dl{font-size:.78rem;color:var(--accent2);cursor:pointer;text-decoration:none;white-space:nowrap}
+  .dl:hover{text-decoration:underline}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+  .topbar h3{font-size:.95rem;color:var(--muted);font-weight:700;margin:0;text-transform:uppercase;letter-spacing:.04em}
+  .note{background:rgba(124,92,255,.08);border:1px solid rgba(124,92,255,.3);border-radius:12px;padding:12px 14px;font-size:.85rem;color:#cfc6ff;margin-top:18px}
+  footer{margin-top:46px;color:var(--muted);font-size:.82rem;text-align:center;border-top:1px solid var(--line);padding-top:22px}
+  optgroup{color:var(--muted)} option{color:var(--txt);background:var(--bg2)}
+  /* lightbox */
+  #lb{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:50;cursor:zoom-out;padding:20px}
+  #lb img{max-width:96vw;max-height:92vh;border-radius:10px;box-shadow:0 20px 80px rgba(0,0,0,.6)}
+  #lb .x{position:absolute;top:18px;right:24px;font-size:2rem;color:#fff;opacity:.8}
+  @media(max-width:600px){.row3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">🎨 Freebie<span class="dot">AI</span></div>
+    <div class="sub">Generate AI images for free, right in your browser. Every model below is one I tested and confirmed runs <b>anonymously with zero credits</b> — no key to paste, no account to make, no paywall.</div>
+    <div class="badges">
+      <span class="badge">✓ No API key</span>
+      <span class="badge">✓ No signup form</span>
+      <span class="badge">✓ No paywall</span>
+      <span class="badge">✓ 6 models</span>
+      <span class="badge">✓ Runs in your browser</span>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="lbl"><label for="prompt">Prompt</label><span class="link" id="surprise">🎲 Surprise me</span></div>
+    <textarea id="prompt" placeholder="A neon koi fish swimming through a rain-soaked cyberpunk alley at night, reflections, cinematic, ultra detailed"></textarea>
+    <div class="row3">
+      <div class="field">
+        <label for="model">Model (all free)</label>
+        <select id="model">
+          <optgroup label="FLUX — Black Forest Labs">
+            <option value="black-forest-labs/flux-schnell">FLUX schnell — fast</option>
+            <option value="black-forest-labs/flux-1.1-pro">FLUX 1.1 pro — best quality</option>
+          </optgroup>
+          <optgroup label="OpenAI GPT-Image">
+            <option value="gpt-image-1">GPT-Image 1</option>
+            <option value="gpt-image-2">GPT-Image 2</option>
+          </optgroup>
+          <optgroup label="Stability">
+            <option value="stabilityai/stable-diffusion-3-medium">Stable Diffusion 3</option>
+            <option value="stabilityai/stable-diffusion-xl-base-1.0">SDXL</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label for="size">Aspect</label>
+        <select id="size">
+          <option value="1024x1024">Square · 1024²</option>
+          <option value="1024x1536">Portrait · 2:3</option>
+          <option value="1536x1024">Landscape · 3:2</option>
+          <option value="512x512">Fast · 512²</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="count">How many</label>
+        <select id="count">
+          <option value="1">1 image</option>
+          <option value="2">2 images</option>
+          <option value="4">4 images</option>
+        </select>
+      </div>
+    </div>
+    <div class="controls">
+      <span class="kbd"><b>Ctrl</b> + <b>Enter</b> to generate</span>
+      <button class="btn" id="go">✨ Generate</button>
+    </div>
+    <div class="out" id="out"></div>
+  </section>
+
+  <div class="note">
+    <b>How it stays free, no key, no signup:</b> images are generated through <a href="https://puter.com" target="_blank" rel="noopener">Puter.js</a>, a “User-Pays” SDK — the site needs no API keys. On first use you tap <i>Continue</i> once on Puter's dialog and an anonymous account is created automatically (no email, no password, no form). Only models verified to run free anonymously are listed; paywalled ones were removed.
+  </div>
+
+  <div id="galleryWrap" style="display:none;margin-top:34px">
+    <div class="topbar">
+      <h3>This session · <span id="galCount">0</span></h3>
+      <button class="btn ghost sm" id="dlAll">⬇ Download all</button>
+    </div>
+    <div class="results" id="gallery"></div>
+  </div>
+
+  <footer>
+    FreebieAI · open static tool · one <code>index.html</code>, deploy free on GitHub Pages.<br/>
+    Free models (verified): FLUX schnell · FLUX 1.1 pro · GPT-Image 1/2 · Stable Diffusion 3 · SDXL.
+  </footer>
+</div>
+
+<div id="lb"><span class="x">×</span><img alt="" /></div>
+
+<script src="https://js.puter.com/v2/"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const galleryWrap = $('galleryWrap'), gallery = $('gallery'), galCount = $('galCount');
+  let made = 0;
+  const allUrls = [];
+
+  // ----- lightbox -----
+  const lb = $('lb'), lbImg = lb.querySelector('img');
+  lb.addEventListener('click', () => { lb.style.display = 'none'; lbImg.src = ''; });
+  const openLB = src => { lbImg.src = src; lb.style.display = 'flex'; };
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { lb.style.display='none'; lbImg.src=''; } });
+
+  // ----- surprise prompts -----
+  const PROMPTS = [
+    "A lone astronaut sitting on the rings of Saturn, watching a distant supernova, hyperrealistic",
+    "A cozy bookshop inside a giant hollow tree, warm lanterns, rain outside, studio ghibli style",
+    "Macro photo of a dewdrop on a spiderweb at sunrise, bokeh, national geographic",
+    "A retro 1980s synthwave city skyline, neon grid, purple and teal, chrome lettering",
+    "An ancient dragon curled around a snowy mountain peak, aurora borealis, epic fantasy",
+    "A bowl of ramen styled like a tiny ocean with sushi boats, whimsical, food photography",
+    "Portrait of a wise old fox wearing tiny spectacles and a tweed jacket, oil painting",
+    "A glass terrarium containing a miniature thunderstorm, glowing clouds, product shot",
+    "Underwater city of bioluminescent jellyfish architecture, deep blue, cinematic",
+    "A vintage hot air balloon shaped like a whale floating over Tuscany at golden hour"
+  ];
+  let pIdx = (made + 3) % PROMPTS.length;
+  $('surprise').addEventListener('click', () => { $('prompt').value = PROMPTS[pIdx % PROMPTS.length]; pIdx++; });
+
+  function dlLink(url, name, text){
+    const a = document.createElement('a');
+    a.href = url; a.download = name; a.className = 'dl'; a.textContent = text || '⬇ Download';
+    return a;
+  }
+
+  function addToGallery(src, model){
+    galleryWrap.style.display = '';
+    allUrls.push({src, name:`freebieai-${Date.now()}-${allUrls.length}.png`});
+    galCount.textContent = ++made;
+    const slot = document.createElement('div'); slot.className = 'slot';
+    const box = document.createElement('div'); box.className = 'imgbox';
+    const im = document.createElement('img'); im.src = src; im.loading = 'lazy';
+    im.addEventListener('click', () => openLB(src));
+    box.appendChild(im);
+    const bar = document.createElement('div'); bar.className = 'bar';
+    const m = document.createElement('span'); m.className = 'm'; m.textContent = model;
+    bar.appendChild(m);
+    bar.appendChild(dlLink(src, `freebieai-${made}.png`, '⬇'));
+    slot.appendChild(box); slot.appendChild(bar);
+    gallery.prepend(slot);
+  }
+
+  $('dlAll').addEventListener('click', () => {
+    allUrls.forEach((u, i) => setTimeout(() => {
+      const a = document.createElement('a'); a.href = u.src; a.download = u.name;
+      document.body.appendChild(a); a.click(); a.remove();
+    }, i * 350));
+  });
+
+  async function generate(){
+    const prompt = $('prompt').value.trim();
+    const out = $('out');
+    if (!prompt){ out.innerHTML = '<div class="slotmsg err">Please enter a prompt first.</div>'; return; }
+    if (typeof puter === 'undefined'){ out.innerHTML = '<div class="slotmsg err">Puter.js failed to load — check your connection or ad-blocker.</div>'; return; }
+    const model = $('model').value;
+    const [w, h] = $('size').value.split('x').map(Number);
+    const count = Number($('count').value);
+    const go = $('go'); go.disabled = true;
+
+    // build placeholder slots
+    out.innerHTML = '<div class="results" id="liveResults"></div>';
+    const live = $('liveResults');
+    const slots = [];
+    for (let i=0;i<count;i++){
+      const slot = document.createElement('div'); slot.className='slot';
+      slot.innerHTML = `<div class="imgbox"><div class="spinner"></div></div><div class="bar"><span class="m">${esc(model)}</span></div>`;
+      live.appendChild(slot); slots.push(slot);
+    }
+    // generate sequentially (one anon queue), fill slots as they arrive
+    for (let i=0;i<count;i++){
+      const t0 = Date.now();
+      try {
+        const img = await puter.ai.txt2img({ prompt, model, width:w, height:h });
+        const secs = ((Date.now()-t0)/1000).toFixed(1);
+        const slot = slots[i];
+        slot.querySelector('.imgbox').innerHTML = '';
+        const im = document.createElement('img'); im.src = img.src; im.alt = prompt;
+        im.addEventListener('click', () => openLB(img.src));
+        slot.querySelector('.imgbox').appendChild(im);
+        const bar = slot.querySelector('.bar');
+        bar.innerHTML = `<span class="m">${esc(model)} · ${w}×${h} · ${secs}s</span>`;
+        bar.appendChild(dlLink(img.src, `freebieai-${Date.now()}-${i}.png`, '⬇ Save'));
+        addToGallery(img.src, model);
+      } catch(e){
+        const slot = slots[i];
+        slot.querySelector('.imgbox').innerHTML = `<div class="slotmsg err">${esc((e&&e.message)||e)}</div>`;
+      }
+    }
+    go.disabled = false;
+  }
+
+  $('go').addEventListener('click', generate);
+  $('prompt').addEventListener('keydown', e => { if ((e.ctrlKey||e.metaKey) && e.key === 'Enter') generate(); });
+})();
+</script>
+</body>
+</html>
